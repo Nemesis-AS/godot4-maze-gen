@@ -3,3 +3,6 @@
 *.exe
 *.apk
 *.pak
+*.idsig
+*.zip
+exports/web/

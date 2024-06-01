@@ -25,17 +25,28 @@ const COORD_MAP = {
 }
 var grid: Array = []
 
+var generating: bool = false
+
 @onready var tilemap: TileMap = $TileMap
 @onready var cursor: Sprite2D = $Cursor
+#
+#func _ready() -> void:
+	#generate_maze()
 
-func _ready() -> void:
+func generate() -> void:
+	if generating:
+		return
+	
+	generating = true
+	print(generating)
 	if debug:
 		cursor.set_visible(true)
 	
 	randomize()
-	generate()
+	await generate_maze()
+	generating = false
 
-func generate() -> void:
+func generate_maze() -> void:
 	grid = _generate_grid(grid_size)
 	var stack: Array[Vector2i] = [Vector2i(0, 0)]
 	
@@ -45,7 +56,7 @@ func generate() -> void:
 		
 		if debug:
 			cursor.global_position = curr * cell_size
-		
+			
 		if neighbors.size() == 0:
 			stack.pop_back()
 		else:
